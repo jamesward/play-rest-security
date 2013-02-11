@@ -1,0 +1,15 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Assets.at(path="/public", file="index.html")
+
+POST    /login                      controllers.SecurityController.login()
+POST    /logout                     controllers.SecurityController.logout()
+
+GET     /todos                      controllers.TodoController.getAllTodos()
+POST    /todos                      controllers.TodoController.createTodo()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
