@@ -10,11 +10,13 @@ import play.mvc.*;
 
 import static play.libs.Json.toJson;
 import static play.mvc.Controller.request;
+import static play.mvc.Controller.response;
 
 public class SecurityController extends Action.Simple {
 
     public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
-    
+    public static final String AUTH_TOKEN = "authToken";
+
     public Result call(Http.Context ctx) throws Throwable {
         User user = null;
         String[] authTokenHeaderValues = ctx.request().headers().get(AUTH_TOKEN_HEADER);
@@ -25,6 +27,7 @@ public class SecurityController extends Action.Simple {
                 return delegate.call(ctx);
             }
         }
+        // todo: check for an authToken cookie and csrf token
         
         return unauthorized("unauthorized");
     }
@@ -51,13 +54,15 @@ public class SecurityController extends Action.Simple {
         else {
             String authToken = user.createToken();
             ObjectNode authTokenJson = Json.newObject();
-            authTokenJson.put("authToken", authToken);
+            authTokenJson.put(AUTH_TOKEN, authToken);
+            response().setCookie(AUTH_TOKEN, authToken);
             return ok(authTokenJson);
         }
     }
 
     @With(SecurityController.class)
     public static Result logout() {
+        response().discardCookie(AUTH_TOKEN);
         getUser().deleteAuthToken();
         return redirect("/");
     }
