@@ -12,7 +12,6 @@ $ ->
   
 
 displayLoginForm = () ->
-  # todo change the url to /login
   $("body").empty()
   loginForm = $("<form>").attr("action", "/login").attr("method", "post").attr("id", "loginForm")
   loginForm.append $("<input>").attr("id", "emailAddress").attr("name", "emailAddress").val("user1@demo.com")

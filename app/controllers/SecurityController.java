@@ -27,7 +27,6 @@ public class SecurityController extends Action.Simple {
                 return delegate.call(ctx);
             }
         }
-        // todo: check for an authToken cookie and csrf token
         
         return unauthorized("unauthorized");
     }
