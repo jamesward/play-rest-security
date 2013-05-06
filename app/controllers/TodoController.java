@@ -13,7 +13,7 @@ import static play.libs.Json.toJson;
 public class TodoController extends Controller {
 
     public static Result getAllTodos() {
-        return ok(toJson(models.Todo.find.all()));
+        return ok(toJson(models.Todo.findByUser(SecurityController.getUser())));
     }
 
     public static Result createTodo() {

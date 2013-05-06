@@ -21,7 +21,7 @@ public class TodoControllerTest {
 
                 Result result = callAction(routes.ref.TodoController.getAllTodos());
                 assertThat(status(result)).isEqualTo(UNAUTHORIZED);
-                assertThat(contentAsString(result)).doesNotContain(DemoData.todo1.value);
+                assertThat(contentAsString(result)).doesNotContain(DemoData.todo1_1.value);
             }
         });
     }
@@ -34,14 +34,14 @@ public class TodoControllerTest {
 
                 Result result = callAction(routes.ref.TodoController.getAllTodos(), fakeRequest().withHeader(SecurityController.AUTH_TOKEN_HEADER, "wrong"));
                 assertThat(status(result)).isEqualTo(UNAUTHORIZED);
-                assertThat(contentAsString(result)).doesNotContain(DemoData.todo1.value);
+                assertThat(contentAsString(result)).doesNotContain(DemoData.todo1_1.value);
             }
         });
     }
     
 
     @Test
-    public void getAllTodos() {
+    public void getAllTodosForUser1() {
         running(fakeApplication(inMemoryDatabase()), new Runnable() {
             public void run() {
                 DemoData.loadDemoData();
@@ -51,7 +51,7 @@ public class TodoControllerTest {
                 Result result = callAction(routes.ref.TodoController.getAllTodos(), fakeRequest().withHeader(SecurityController.AUTH_TOKEN_HEADER, authToken)); 
                 
                 assertThat(status(result)).isEqualTo(OK);
-                assertThat(contentAsString(result)).contains(DemoData.todo1.value);
+                assertThat(contentAsString(result)).contains(DemoData.todo1_1.value);
             }
         });
     }

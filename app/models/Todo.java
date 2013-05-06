@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.util.List;
 
 @Entity
 public class Todo extends Model {
@@ -29,6 +30,8 @@ public class Todo extends Model {
         this.value = value;
     }
 
-    public static Finder<Long, Todo> find = new Finder<Long, Todo>(Long.class, Todo.class);
-    
+    public static List<Todo> findByUser(User user) {
+        Finder<Long, Todo> finder = new Finder<Long, Todo>(Long.class, Todo.class);
+        return finder.where().eq("user", user).findList();
+    }
 }

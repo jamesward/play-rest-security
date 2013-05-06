@@ -20,7 +20,7 @@ public class SecurityController extends Action.Simple {
     public Result call(Http.Context ctx) throws Throwable {
         User user = null;
         String[] authTokenHeaderValues = ctx.request().headers().get(AUTH_TOKEN_HEADER);
-        if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length > 0)) {
+        if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1) && (authTokenHeaderValues[0] != null)) {
             user = models.User.findByAuthToken(authTokenHeaderValues[0]);
             if (user != null) {
                 ctx.args.put("user", user);
