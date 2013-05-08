@@ -1,6 +1,9 @@
-$ ->
+$ -> init()
+
+
+init = () ->
   # try to get an auth token
-  document.cookie.split(';').forEach (cookieString) ->
+  document.cookie.split('; ').forEach (cookieString) ->
     cookie = cookieString.split("=")
     if ((cookie.length == 2) && (cookie[0] == "authToken"))
       window.authToken = cookie[1]
@@ -9,7 +12,7 @@ $ ->
     displayLoginForm()
   else
     displayTodos()
-  
+
 
 displayLoginForm = () ->
   $("body").empty()
@@ -30,23 +33,26 @@ displayLoginForm = () ->
       success: doLogin
   $("body").append loginForm
 
+
 doLogin = (data, textStatus, jqXHR) ->
   window.authToken = data.authToken # global state holder for the auth token
   $("#loginForm").remove()
   displayTodos()
 
+
 displayTodos = () ->
+  fetchTodos()
   $("body").empty()
   $("body").append $("<button>").text("Logout").click(doLogout)
   $("body").append $("<h3>").text "Your Todos"
   todoList = $("<ul>").attr("id", "todos")
   $("body").append todoList
-  fetchTodos()
   todoForm = $("<form>").attr("action", "/todos").attr("method", "post").attr("id", "todoForm")
   todoForm.append $("<input>").attr("id", "todoValue").attr("name", "value").attr("required", true)
   todoForm.append $("<input>").attr("type", "submit").val("Create Todo")
   todoForm.submit(createTodo)
   $("body").append todoForm
+
 
 createTodo = (event) ->
   event.preventDefault()
@@ -65,7 +71,8 @@ createTodo = (event) ->
       else
         displayError("An uknown error occurred")
     success: fetchTodos
-  
+
+
 fetchTodos = () ->
   $.ajax
     url: "/todos"
@@ -82,9 +89,11 @@ fetchTodos = () ->
       $.each todos, (index, todo) ->
         todoList.append $("<li>").text(todo.value)
 
+
 displayError = (error) ->
   $("body").prepend $("<span>").text(error).css("color", "red")
-  
+
+
 doLogout = (event) ->
   $.ajax
     url: "/logout"
