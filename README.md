@@ -57,15 +57,15 @@ This will start the application which you can connect to in your browser at: [ht
 
 You should see a login form which you can test out and once logged in, you will see the protected data and can add new data.
 
-There are also a number of [functional and unit tests](http://github.com/jamesward/play-rest-security/***TODO***) for the application which validate the security of the application.  You can run the tests locally by running:
+There are also a number of [functional and unit tests](https://github.com/jamesward/play-rest-security/tree/master/test) for the application which validate the security of the application.  You can run the tests locally by running:
 
     play test
 
 ### RESTful JSON Back-End Services
 
-Starting with [User.java](http://github.com/jamesward/play-rest-security/***TODO***) you will see this is a typical database-backed entity using JPA.  The `User` class has a property `authToken` which will store a single authentication token.  In a real-world application you will probably want to allow a user to be logged in from multiple clients (e.g. different browsers).  To enable this you could simply turn this into a list.  You may also want to have some tracking on when authentication tokens are used, what IP address used them, and when they were created.  The tokens could also be encrypted in the database.
+Starting with [User.java](https://github.com/jamesward/play-rest-security/tree/master/app/models/User.java) you will see this is a typical database-backed entity using JPA.  The `User` class has a property `authToken` which will store a single authentication token.  In a real-world application you will probably want to allow a user to be logged in from multiple clients (e.g. different browsers).  To enable this you could simply turn this into a list.  You may also want to have some tracking on when authentication tokens are used, what IP address used them, and when they were created.  The tokens could also be encrypted in the database.
 
-The [Todo.java](http://github.com/jamesward/play-rest-security/***TODO***) file contains the `Todo` entity which stores a user's Todos.  Access to the `Todo` objects happen via the [TodoController.java](http://github.com/jamesward/play-rest-security/***TODO***) class.  In this case the `TodoController` only has two methods, `getAllTodos()` and `createTodo()`.  These methods are exposed via HTTP through the [routes](http://github.com/jamesward/play-rest-security/***TODO***) file.  The `TodoController` has the `@With(SecurityController.class)` annotation which setups up a request interceptor so that every request made to the controller must go through the `call` method in the [SecurityController.java](http://github.com/jamesward/play-rest-security/***TODO***) class.
+The [Todo.java](https://github.com/jamesward/play-rest-security/tree/master/app/models/Todo.java) file contains the `Todo` entity which stores a user's Todos.  Access to the `Todo` objects happen via the [TodoController.java](https://github.com/jamesward/play-rest-security/tree/master/app/controllers/TodoController.java) class.  In this case the `TodoController` only has two methods, `getAllTodos()` and `createTodo()`.  These methods are exposed via HTTP through the [routes](https://github.com/jamesward/play-rest-security/tree/master/conf/routes) file.  The `TodoController` has the `@With(SecurityController.class)` annotation which setups up a request interceptor so that every request made to the controller must go through the `call` method in the [SecurityController.java](https://github.com/jamesward/play-rest-security/tree/master/app/controllers/SecurityController.java) class.
 
 The `call` method in the `SecurityController` tries to find an authentication token in a custom HTTP header.  If it finds a token then it tries to find a user with that token.  If found the user is added to the HTTP Context (a place to store data for the duration of the request) and then the original controller method is called.  Otherwise a 401 response is returned.
 
@@ -77,7 +77,7 @@ That is the RESTful back-end of the example app.  Now lets explore the front-end
 
 ### CoffeeScript + jQuery Front-End UI
 
-In the [routes](http://github.com/jamesward/play-rest-security/***TODO***) file you will see that requests to `/` are handled by returning [public/index.html](http://github.com/jamesward/play-rest-security/***TODO***).  This file doesn't do much other than load jQuery and also load the `index.min.js` file which is compiled and minified by Play's asset compiler.  The source for that file is [index.coffee](http://github.com/jamesward/play-rest-security/***TODO***) and it provides the whole UI for the application.  This example uses CoffeeScript because it provides a more concise and readable syntax for writing JavaScript applications.
+In the [routes](https://github.com/jamesward/play-rest-security/tree/master/conf/routes) file you will see that requests to `/` are handled by returning [public/index.html](https://github.com/jamesward/play-rest-security/tree/master/public/index.html).  This file doesn't do much other than load jQuery and also load the `index.min.js` file which is compiled and minified by Play's asset compiler.  The source for that file is [index.coffee](https://github.com/jamesward/play-rest-security/tree/master/app/assets/javascripts/index.coffee) and it provides the whole UI for the application.  This example uses CoffeeScript because it provides a more concise and readable syntax for writing JavaScript applications.
 
 When the page is ready the `init` function is called and the application attempts to find the authentication token in a cookie.  If it can't be found then a login form is displayed.  If the cookie can be found then the `displayTodos` function is called.  This function tries to fetch the user's list of `Todo` objects and then display them.  The request to fetch the `Todo` objects is a normal Ajax JSON request except that the user's authentication token is sent in a custom HTTP header.  If the server responds with a 401 error then the application calls `displayLoginForm` otherwise the user's `Todo` objects are displayed.  The `createTodo` function also sends the authentication token in custom HTTP header and the JSON data for the `Todo` within an Ajax request.
 
@@ -91,5 +91,5 @@ The important point to remember is that using cookies for authentication opens u
 
 Learn more:
 
-- [CSRF](http://wikipedia.org/***TODO***)
+- [CSRF](http://en.wikipedia.org/wiki/XSRF)
 - [Play Framework](http://playframework.com)
