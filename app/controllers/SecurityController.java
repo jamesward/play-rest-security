@@ -28,8 +28,8 @@ public class SecurityController extends Action.Simple {
                 return delegate.call(ctx);
             }
         }
-
-        return F.Promise.promise(() -> unauthorized("unauthorized"));
+        Result unauthorized = Results.unauthorized("unauthorized");
+        return F.Promise.pure(unauthorized);
     }
 
     public static User getUser() {
