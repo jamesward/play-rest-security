@@ -1,10 +1,8 @@
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.SecurityController;
 import controllers.routes;
-import models.User;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.ObjectNode;
 import org.junit.Test;
-import play.Logger;
 import play.libs.Json;
 import play.mvc.Result;
 import utils.DemoData;

@@ -1,10 +1,11 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.User;
-import org.codehaus.jackson.node.ObjectNode;
 import play.Logger;
 import play.data.Form;
 import play.data.validation.Constraints;
+import play.libs.F;
 import play.libs.Json;
 import play.mvc.*;
 
@@ -17,7 +18,7 @@ public class SecurityController extends Action.Simple {
     public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
     public static final String AUTH_TOKEN = "authToken";
 
-    public Result call(Http.Context ctx) throws Throwable {
+    public F.Promise<Result> call(Http.Context ctx) throws Throwable {
         User user = null;
         String[] authTokenHeaderValues = ctx.request().headers().get(AUTH_TOKEN_HEADER);
         if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1) && (authTokenHeaderValues[0] != null)) {
@@ -27,8 +28,8 @@ public class SecurityController extends Action.Simple {
                 return delegate.call(ctx);
             }
         }
-        
-        return unauthorized("unauthorized");
+        Result unauthorized = Results.unauthorized("unauthorized");
+        return F.Promise.pure(unauthorized);
     }
 
     public static User getUser() {
