@@ -49,9 +49,9 @@ To better explain this approach lets walk through an example application.  You c
 
 This application is built using Play Framework, Java, jQuery, and CoffeeScript.
 
-To run the application locally, [download Play 2.1.1](http://playframework.com/download), extract the zip and optionally add the extracted directory to your system's path.  Then using a command line, navigate into the `play-rest-security` directory and run the following (assuming the `play` command is in your path):
+To run the application locally, [download latest Typesafe Activator](http://www.playframework.com/download), extract the zip and optionally add the extracted directory to your system's path.  Then using a command line, navigate into the `play-rest-security` directory and run the following (assuming the `activator` command is in your path):
 
-    play run
+    activator run
 
 This will start the application which you can connect to in your browser at: [http://localhost:9000/](http://localhost:9000/)
 
@@ -59,7 +59,7 @@ You should see a login form which you can test out and once logged in, you will 
 
 There are also a number of [functional and unit tests](https://github.com/jamesward/play-rest-security/tree/master/test) for the application which validate the security of the application.  You can run the tests locally by running:
 
-    play test
+    activator test
 
 ### RESTful JSON Back-End Services
 
