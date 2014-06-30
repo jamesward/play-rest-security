@@ -9,7 +9,7 @@ import java.util.List;
 
 import static play.libs.Json.toJson;
 
-@With(SecurityController.class)
+@Security.Authenticated(Secured.class)
 public class TodoController extends Controller {
 
     public static Result getAllTodos() {
