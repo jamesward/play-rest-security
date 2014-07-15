@@ -1,4 +1,4 @@
-Securing Single Page Apps and REST Services
+Securing Single Page Apps and REST Services (implement with Authenticator)
 ===========================================
 
 The move towards Single Page Apps and RESTful services open the doors to a much better way of securing web applications.  Traditional web applications use browser cookies to identify a user when a request is made to the server.  This approach is fundamentally flawed and causes many applications to be vulnerable to Cross-Site Request Forgery (CSRF) attacks.  When used correctly, RESTful services can avoid this vulnerability altogether.  Before we go into the solution, lets recap the problem.

@@ -13,24 +13,11 @@ import static play.libs.Json.toJson;
 import static play.mvc.Controller.request;
 import static play.mvc.Controller.response;
 
-public class SecurityController extends Action.Simple {
+public class SecurityController extends Controller {
 
     public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
     public static final String AUTH_TOKEN = "authToken";
 
-    public F.Promise<Result> call(Http.Context ctx) throws Throwable {
-        User user = null;
-        String[] authTokenHeaderValues = ctx.request().headers().get(AUTH_TOKEN_HEADER);
-        if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1) && (authTokenHeaderValues[0] != null)) {
-            user = models.User.findByAuthToken(authTokenHeaderValues[0]);
-            if (user != null) {
-                ctx.args.put("user", user);
-                return delegate.call(ctx);
-            }
-        }
-        Result unauthorized = Results.unauthorized("unauthorized");
-        return F.Promise.pure(unauthorized);
-    }
 
     public static User getUser() {
         return (User)Http.Context.current().args.get("user");
@@ -60,7 +47,7 @@ public class SecurityController extends Action.Simple {
         }
     }
 
-    @With(SecurityController.class)
+    @Security.Authenticated(Secured.class)
     public static Result logout() {
         response().discardCookie(AUTH_TOKEN);
         getUser().deleteAuthToken();
