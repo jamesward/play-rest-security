@@ -5,9 +5,14 @@
 # Home page
 GET     /                           controllers.Assets.at(path="/public", file="index.html")
 
+GET     /api-docs                   controllers.ApiHelpController.getResources
+
+#GET     /api-docs/login             controllers.ApiHelpController.getResource(path = "/login")
 POST    /login                      controllers.SecurityController.login()
+#GET     /api-docs/logout            controllers.ApiHelpController.getResource(path = "/logout")
 POST    /logout                     controllers.SecurityController.logout()
 
+GET     /api-docs/api/todos         controllers.ApiHelpController.getResource(path = "/api/todos")
 GET     /todos                      controllers.TodoController.getAllTodos()
 POST    /todos                      controllers.TodoController.createTodo()
 
