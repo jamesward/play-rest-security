@@ -1,19 +1,17 @@
 package models;
 
+import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import play.data.validation.Constraints;
-import play.db.ebean.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Todo extends Model {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     @Column(length = 1024, nullable = false)
@@ -31,7 +29,7 @@ public class Todo extends Model {
     }
 
     public static List<Todo> findByUser(User user) {
-        Finder<Long, Todo> finder = new Finder<Long, Todo>(Long.class, Todo.class);
+        Finder<Long, Todo> finder = new Finder<>(Todo.class);
         return finder.where().eq("user", user).findList();
     }
 }

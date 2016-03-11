@@ -1,8 +1,8 @@
 package models;
 
+import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import play.data.validation.Constraints;
-import play.db.ebean.Model;
 
 import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
@@ -17,6 +17,7 @@ import java.util.UUID;
 public class User extends Model {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     private String authToken;
@@ -96,15 +97,12 @@ public class User extends Model {
         try {
             return MessageDigest.getInstance("SHA-512").digest(value.getBytes("UTF-8"));
         }
-        catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        catch (UnsupportedEncodingException e) {
+        catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static Finder<Long, User> find = new Finder<Long, User>(Long.class, User.class);
+    public static Finder<Long, User> find = new Finder<>(User.class);
     
     public static User findByAuthToken(String authToken) {
         if (authToken == null) {
